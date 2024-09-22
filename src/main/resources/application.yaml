@@ -1,0 +1,31 @@
+
+spring:
+  application:
+    name: image-service
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/ecommerce-fashion
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+      format-sql: true
+
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        type:
+          jsonb: com.vladmihalcea.hibernate.type.json.JsonBinaryType
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        register-types: auto
+server:
+  port: ${PORT_SERVER}
+upload:
+  dir: ${UPLOAD_DIR}
+url:
+  server: ${URL_SERVER}
+  port: ${PORT_SERVER}

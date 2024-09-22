@@ -68,6 +68,8 @@ public class ImageUploadService {
     response.setObjectName(dto.getObjectName());
     response.setDeleted(false);
 
+    logUploadedFiles();
+
     return response;
   }
 
@@ -95,4 +97,16 @@ public class ImageUploadService {
 
     return code;
   }
+
+
+  private void logUploadedFiles() {
+    try {
+      Path path = Paths.get(uploadDir);
+      long count = Files.list(path).count();
+      System.out.println("Number of files uploaded: " + count);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 }

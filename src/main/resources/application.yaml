@@ -30,3 +30,5 @@ url:
   server: ${URL_SERVER}
   port: ${PORT_SERVER}
   host: ${HOST_SERVER}
+excel:
+  dir: ${EXCEL_DIR}

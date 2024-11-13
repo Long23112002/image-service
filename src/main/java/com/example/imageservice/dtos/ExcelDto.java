@@ -1,5 +1,6 @@
 package com.example.imageservice.dtos;
 
+import com.example.imageservice.entities.enums.ProcessStatus;
 import com.example.imageservice.entities.enums.TypeFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,9 +18,19 @@ public class ExcelDto {
 
   @NotEmpty private MultipartFile file;
 
-  @NotNull private Long objectId;
+  @NotEmpty private MultipartFile fileResult;
 
-  @NotBlank private String objectName;
+  private String objectName;
 
-  @NotNull private TypeFile type;
+  private Integer count = 0;
+
+  private Integer success = 0;
+
+  private Integer error = 0;
+
+  private Long process;
+
+  private Long userId;
+
+  private String description;
 }

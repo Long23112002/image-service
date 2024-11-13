@@ -1,5 +1,6 @@
 package com.example.imageservice.entities;
 
+import com.example.imageservice.entities.enums.ProcessStatus;
 import com.example.imageservice.entities.enums.TypeFile;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -12,43 +13,47 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Where(clause = "deleted = false")
-@Table(name = "file_uploads", schema = "images")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
+import java.util.Date;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import lombok.Data;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Data
+@Document(value = "import_process")
 public class FileUpload {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
 
-  @Column(name = "url")
-  private String url;
+  @Transient public static final String SEQUENCE = "import_process_seq";
 
-  @Column(name = "object_id")
-  private Long objectId;
+  @Id private Long id;
 
-  @Column(name = "object_name")
+  @Indexed
+  private Boolean isDelete = false;
+
   private String objectName;
 
-  @Column(name = "type")
-  @Enumerated(EnumType.STRING)
-  private TypeFile type;
+  private ProcessStatus status;
 
-  @Column(name = "created_at")
-  @CreationTimestamp
-  private Timestamp createdAt;
+  private String filePath;
 
-  @Column(name = "updated_at")
-  @UpdateTimestamp
-  private Timestamp updatedAt;
+  private String fileName;
 
-  @Column(name = "deleted")
-  private Boolean deleted = false;
+  private String fileResult;
+
+  private Integer count = 0;
+
+  private Integer success = 0;
+
+  private Integer error = 0;
+
+  private Long userId;
+
+  private Long process;
+
+  private String description;
+
+  private Date createdAt;
+
+  private Date updatedAt;
 }

@@ -44,18 +44,17 @@ public class ExcelUploadService {
 
   @Autowired private MongoTemplate mongoTemplate;
 
-  public FileUpload save(ExcelDto dto) throws IOException {
-    // Kiểm tra định dạng của file tải lên
+  public void save(ExcelDto dto) throws IOException {
+
     if (!Objects.requireNonNull(dto.getFile().getOriginalFilename()).endsWith(".xlsx")) {
       throw new ExceptionHandle(HttpStatus.BAD_REQUEST, "Chỉ cho phép upload file Excel có định dạng .xlsx");
     }
 
-    // Kiểm tra xem fileResult có tồn tại không
+
     if (dto.getFileResult() == null || dto.getFileResult().isEmpty()) {
       throw new ExceptionHandle(HttpStatus.BAD_REQUEST, "File kết quả không được bỏ trống");
     }
 
-    // Lấy tên file gốc và extension
     String originalFileName = dto.getFile().getOriginalFilename();
     String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
     String baseFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
@@ -93,7 +92,7 @@ public class ExcelUploadService {
     fileUpload.setUserId(dto.getUserId());
     fileUpload.setProcess(dto.getProcess());
 
-    return fileUploadRepository.save(fileUpload);
+     fileUploadRepository.save(fileUpload);
   }
 
 

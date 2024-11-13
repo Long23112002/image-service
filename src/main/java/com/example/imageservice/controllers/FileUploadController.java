@@ -17,8 +17,8 @@ public class FileUploadController {
   @Autowired private ExcelUploadService excelUploadService;
 
   @PostMapping("/upload")
-  public ResponseEntity<FileUpload> upload(@ModelAttribute ExcelDto dto) throws IOException {
-    return ResponseEntity.ok(excelUploadService.save(dto));
+  public ResponseEntity<Void> upload(@ModelAttribute ExcelDto dto) throws IOException {
+    excelUploadService.save(dto);
   }
 
   @GetMapping("/download/{fileName}")

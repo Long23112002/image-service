@@ -2,6 +2,7 @@ package com.example.imageservice.entities;
 
 import com.example.imageservice.entities.enums.ProcessStatus;
 import com.example.imageservice.entities.enums.TypeFile;
+import com.example.imageservice.entities.value.UserInfo;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
@@ -47,11 +48,13 @@ public class FileUpload {
 
   private Integer error = 0;
 
-  private Long userId;
+  private UserInfo userInfo;
 
   private Long process;
 
   private String description;
+
+  private TypeFile typeFile;
 
   private Date createdAt;
 

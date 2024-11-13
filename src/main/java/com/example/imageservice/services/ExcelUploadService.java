@@ -93,8 +93,10 @@ public class ExcelUploadService {
     fileUpload.setStatus(ProcessStatus.IN_PROCESS);
     fileUpload.setIsDelete(false);
     fileUpload.setDescription(dto.getDescription());
-    fileUpload.setUserId(dto.getUserId());
+    fileUpload.setTypeFile(dto.getTypeFile());
+    fileUpload.setUserInfo(dto.getUserInfo());
     fileUpload.setProcess(dto.getProcess());
+
 
      fileUploadRepository.save(fileUpload);
   }

@@ -18,6 +18,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -109,6 +113,11 @@ public class ExcelUploadService {
       Update update = new Update().set("status", ProcessStatus.SUCCESS);
       mongoTemplate.updateMulti(query, update, FileUpload.class);
     }
+  }
+
+  public Page<FileUpload> filter(Pageable pageable) {
+    Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.asc("id")));
+    return fileUploadRepository.findAll(pageableWithSort);
   }
 
 }

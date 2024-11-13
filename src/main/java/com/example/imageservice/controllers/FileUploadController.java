@@ -4,7 +4,10 @@ import com.example.imageservice.dtos.ExcelDto;
 import com.example.imageservice.entities.FileUpload;
 import com.example.imageservice.services.ExcelUploadService;
 import java.io.IOException;
+
+import com.example.imageservice.utils.ResponsePageV2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ public class FileUploadController {
   @Autowired private ExcelUploadService excelUploadService;
 
   @PostMapping("/upload")
-  public ResponseEntity<Void> upload(@ModelAttribute ExcelDto dto) throws IOException {
+  public void upload(@ModelAttribute ExcelDto dto) throws IOException {
     excelUploadService.save(dto);
   }
 
@@ -32,5 +35,10 @@ public class FileUploadController {
     } catch (IOException e) {
       return ResponseEntity.status(404).body(null);
     }
+  }
+
+  @GetMapping
+  public ResponsePageV2<FileUpload> filter(Pageable pageable){
+    return new ResponsePageV2<>(excelUploadService.filter(pageable));
   }
 }

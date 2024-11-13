@@ -1,7 +1,6 @@
 package com.example.imageservice.dtos;
 
-import com.example.imageservice.entities.enums.ProcessStatus;
-import com.example.imageservice.entities.enums.TypeFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +19,7 @@ public class ExcelDto {
 
   @NotEmpty private MultipartFile fileResult;
 
+  @NotBlank
   private String objectName;
 
   private Integer count = 0;
@@ -28,8 +28,10 @@ public class ExcelDto {
 
   private Integer error = 0;
 
+  @NotNull
   private Long process;
 
+  @NotNull
   private Long userId;
 
   private String description;

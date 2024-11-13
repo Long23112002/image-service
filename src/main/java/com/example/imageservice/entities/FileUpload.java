@@ -1,20 +1,8 @@
 package com.example.imageservice.entities;
 
 import com.example.imageservice.entities.enums.ProcessStatus;
-import com.example.imageservice.entities.enums.TypeFile;
 import com.example.imageservice.entities.value.UserInfo;
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
-
-import java.util.Date;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import lombok.Data;
@@ -54,9 +42,7 @@ public class FileUpload {
 
   private String description;
 
-  private TypeFile typeFile;
+  private String typeFile;
 
-  private Date createdAt;
-
-  private Date updatedAt;
+  private Long createdAt;
 }

@@ -4,8 +4,10 @@ import com.example.imageservice.config.SequenceGenerator;
 import com.example.imageservice.dtos.ExcelDto;
 import com.example.imageservice.entities.FileUpload;
 import com.example.imageservice.entities.enums.ProcessStatus;
+import com.example.imageservice.entities.value.UserInfo;
 import com.example.imageservice.repositories.FileUploadRepository;
 import com.example.imageservice.utils.Slug;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longnh.exceptions.ExceptionHandle;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +15,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -81,7 +85,6 @@ public class ExcelUploadService {
 
     String fileDownloadUri = hostServer + ":" + portServer + "/api/v1/files/download/" + fileName;
     String fileResultDownloadUri = hostServer + ":" + portServer + "/api/v1/files/download/" + resultFileName;
-    
     FileUpload fileUpload = new FileUpload();
     fileUpload.setId(sequenceGenerator.generateSequence(FileUpload.SEQUENCE));
     fileUpload.setFileName(fileName);
@@ -93,11 +96,10 @@ public class ExcelUploadService {
     fileUpload.setStatus(ProcessStatus.IN_PROCESS);
     fileUpload.setIsDelete(false);
     fileUpload.setDescription(dto.getDescription());
-    fileUpload.setTypeFile(dto.getTypeFile());
-    fileUpload.setUserInfo(dto.getUserInfo());
+    fileUpload.setUserInfo(convertJsonToUserInfo(dto.getUserInfo()));
     fileUpload.setProcess(dto.getProcess());
-
-
+    fileUpload.setCreatedAt(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+   fileUpload.setTypeFile(dto.getTypeFile());
      fileUploadRepository.save(fileUpload);
   }
 
@@ -120,6 +122,13 @@ public class ExcelUploadService {
   public Page<FileUpload> filter(Pageable pageable) {
     Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.asc("id")));
     return fileUploadRepository.findAll(pageableWithSort);
+  }
+
+
+  public UserInfo convertJsonToUserInfo(String jsonData) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    return objectMapper.readValue(jsonData, UserInfo.class);
   }
 
 }

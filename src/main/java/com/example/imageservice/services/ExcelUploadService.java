@@ -120,7 +120,7 @@ public class ExcelUploadService {
   }
 
   public Page<FileUpload> filter(Pageable pageable) {
-    Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.asc("id")));
+    Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Order.desc("id")));
     return fileUploadRepository.findAll(pageableWithSort);
   }
 
